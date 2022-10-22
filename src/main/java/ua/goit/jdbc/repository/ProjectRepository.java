@@ -9,19 +9,16 @@ import java.time.LocalDate;
 
 //public class ProjectRepository implements Crud<ProjectDao> {
 public class ProjectRepository {
-/*
-    1. делаем Connection
-    2. заполняем все поля в об\екте
-    3. записываем объект в базу
-    4. ретерн дженерейтед кейз. чтоб был ключ сгенерированой записи
-    делаем сет айди того что сохранен в базе
-*/
-
-//    View view;
-
     public ProjectRepository() {
-//        this.view = view;
     }
+
+//******************************************************************************
+//    Connection connection = null;
+
+//    public ProjectRepository(Connection connection) {
+//        this.connection = connection;
+//    }
+//******************************************************************************
 //************************ CRUD ******************************************************
 //    @Override
     public ProjectDao create(ProjectDao projectDao) {
@@ -31,7 +28,8 @@ public class ProjectRepository {
 //                + "RETURNING *"
                 ;
 
-        try (Connection connection = DatabaseManagerConnector.getConnection();
+        try (
+                Connection connection = DatabaseManagerConnector.getConnection();
              var statement = connection.prepareStatement(INSERT_PROJECT,
                      Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, projectDao.getProjectNameDAO());
