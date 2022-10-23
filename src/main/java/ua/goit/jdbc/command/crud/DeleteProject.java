@@ -25,6 +25,6 @@ public class DeleteProject implements Command {
 
     @Override
     public void execute() {
-        projectService.delete();
+        projectService.delete(connection);
     }
 }

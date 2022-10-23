@@ -30,6 +30,6 @@ public class MiddleDevelopersList implements Command {
 
     @Override
     public void execute() {
-        projectServise.printMiddleDevelopersList();
+        projectServise.printMiddleDevelopersList(connection);
     }
 }

@@ -24,6 +24,6 @@ public class ReadProject implements Command {
 
     @Override
     public void execute() {
-        projectService.read();
+        projectService.read(connection);
     }
 }

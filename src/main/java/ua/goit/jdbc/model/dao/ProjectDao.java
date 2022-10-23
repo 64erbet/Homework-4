@@ -7,24 +7,27 @@ public class ProjectDao {
     private String projectNameDAO;
     private Integer customerIdDAO;
     private LocalDate createDateDAO;
+    private LocalDate reportDateDAO;
 
     public ProjectDao(){
 
     };
 
-    public ProjectDao(String projectNameDAO,
-                      Integer customerIdDAO, LocalDate createDateDAO) {
-        this.projectNameDAO = projectNameDAO;
-        this.customerIdDAO = customerIdDAO;
-        this.createDateDAO = createDateDAO;
-    }
+//    public ProjectDao(String projectNameDAO,
+//                      Integer customerIdDAO, LocalDate createDateDAO) {
+//        this.projectNameDAO = projectNameDAO;
+//        this.customerIdDAO = customerIdDAO;
+//        this.createDateDAO = createDateDAO;
+//    }
 
     public ProjectDao(Integer projectId, String projectNameDAO,
-                      Integer customerIdDAO, LocalDate createDateDAO) {
+                      Integer customerIdDAO, LocalDate createDateDAO,
+                      LocalDate reportDateDAO) {
         this.projectId = projectId;
         this.projectNameDAO = projectNameDAO;
         this.customerIdDAO = customerIdDAO;
         this.createDateDAO = createDateDAO;
+        this.reportDateDAO = reportDateDAO;
     }
 
     public String getProjectNameDAO() {
@@ -59,6 +62,14 @@ public class ProjectDao {
         this.projectId = projectId;
     }
 
+    public LocalDate getReportDateDAO() {
+        return reportDateDAO;
+    }
+
+    public void setReportDateDAO(LocalDate reportDateDAO) {
+        this.reportDateDAO = reportDateDAO;
+    }
+
     @Override
     public String toString() {
         return "ProjectDaoWithId {" +
@@ -66,6 +77,7 @@ public class ProjectDao {
                 ",\n   projectNameDAO = '" + projectNameDAO + '\'' +
                 ",\n   customerIdDAO = " + customerIdDAO +
                 ",\n   createDateDAO = " + createDateDAO +
+                ",\n   reportDateDAO = " + reportDateDAO +
                 "\n}";
     }
 }

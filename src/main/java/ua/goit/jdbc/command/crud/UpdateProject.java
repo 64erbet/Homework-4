@@ -24,6 +24,6 @@ public class UpdateProject implements Command {
 
     @Override
     public void execute() {
-        projectService.update();
+        projectService.update(connection);
     }
 }

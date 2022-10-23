@@ -77,7 +77,81 @@ SELECT p.projectid, p.createdate, p.projectname, COUNT(d.firstname)
                 LEFT JOIN developers d 
                 ON dp.dp_developer_id = d.developerid 
                 GROUP BY p.projectname, p.createdate, p.projectid
-                ;]]></console>
+                ;
+
+SELECT *
+    FROM developers
+;
+
+SELECT *
+    FROM developers_projects
+;
+
+SELECT *
+    FROM projects
+;
+
+ALTER TABLE developers DROP COLUMN reportday;
+
+SELECT *
+    FROM developers
+;
+
+ALTER TABLE projects ADD COLUMN reportDate DATE;
+
+SELECT *
+    FROM projects
+;
+
+SELECT p.projectid, p.createdate, p.reportdate, p.projectname, COUNT(d.firstname) 
+                FROM projects p 
+                LEFT JOIN developers_projects dp 
+                ON p.projectid = dp.dp_project_id 
+                LEFT JOIN developers d 
+                ON dp.dp_developer_id = d.developerid 
+                GROUP BY p.projectname, p.createdate, p.projectid
+                ;
+INSERT INTO projects (reportDate) VALUES('15-4-1985');
+
+UPDATE projects 
+    SET reportdate = '1999-07-03'
+    WHERE projectid = 1       
+;
+
+SELECT *
+    FROM projects
+;
+
+UPDATE projects 
+    SET reportdate = '1999-07-03'
+    WHERE reportdate IS NULL
+;
+
+----------------------------------------------------------------------------
+
+SELECT *
+    FROM companies
+;
+
+SELECT *
+    FROM customers
+;
+
+SELECT *
+    FROM developers
+;
+
+SELECT *
+    FROM projectdate
+;
+
+SELECT *
+    FROM projects
+;
+
+SELECT *
+    FROM skills
+;]]></console>
     </connection>
     <connection id="c4a0bacc-5bc9-44c7-a5a4-71ea70781437">
       <console name="Connection 1" type="STANDARD" schema="" session="Main"><![CDATA[INSERT INTO public.projects (projectname, customerid, createdate)
@@ -94,6 +168,7 @@ RETURNING projects.projectid;]]></console>
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="ba8017e4-30a6-488f-96c7-48d58c7320f6" dataset="public.projects" active-filter-id="" />
+    <filter-actions connection-id="ba8017e4-30a6-488f-96c7-48d58c7320f6" dataset="public.companyes_projects" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />

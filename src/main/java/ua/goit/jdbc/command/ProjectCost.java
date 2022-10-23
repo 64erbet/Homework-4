@@ -1,12 +1,9 @@
 package ua.goit.jdbc.command;
 
-import ua.goit.jdbc.config.DatabaseManagerConnector;
 import ua.goit.jdbc.service.ProjectService;
 import ua.goit.jdbc.view.View;
 
-import java.math.BigDecimal;
 import java.sql.*;
-import java.util.Scanner;
 
 public class ProjectCost implements Command {
     public static final String PROJECT_COST = "cost";
@@ -28,6 +25,6 @@ public class ProjectCost implements Command {
     }
     @Override
     public void execute() {
-        projectService.printProjectCost();
+        projectService.printProjectCost(connection);
     }
 }

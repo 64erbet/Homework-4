@@ -27,6 +27,6 @@ public class CreateProject implements Command {
 
     @Override
     public void execute() {
-        projectService.create();
+        projectService.create(connection);
     }
 }

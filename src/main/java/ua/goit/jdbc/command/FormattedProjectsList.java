@@ -27,6 +27,6 @@ public class FormattedProjectsList implements Command {
 
     @Override
     public void execute() {
-        projectService.printFormattedProjectList();
+        projectService.printFormattedProjectList(connection);
     }
 }

@@ -24,6 +24,6 @@ public class ProjectDevelopersList implements Command {
     }
     @Override
     public void execute() {
-        projectService.printProjectDevelopers();
+        projectService.printProjectDevelopers(connection);
     }
 }

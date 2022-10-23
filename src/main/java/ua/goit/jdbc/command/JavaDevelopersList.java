@@ -33,6 +33,6 @@ public class JavaDevelopersList implements Command {
 
     @Override
     public void execute() {
-        projectService.printProjectJavaDevelopers();
+        projectService.printProjectJavaDevelopers(connection);
     }
 }
