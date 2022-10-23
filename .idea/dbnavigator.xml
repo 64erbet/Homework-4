@@ -47,6 +47,11 @@ UPDATE projects
 ;
 
 UPDATE projects
+    SET reportdate = ''to_date('1000-Jan-01', 'YYYY-Mon-DD')''
+    WHERE createdate = 'to_date('2013-Mar-13', 'YYYY-Mon-DD')'
+;
+
+UPDATE projects
     SET projectname = 'Project_FXXZZ'
     WHERE projectid = 37
     RETURNING *
@@ -57,7 +62,7 @@ SELECT *
 ;
 
 DELETE FROM projects
-    WHERE projectid = 36
+    WHERE projectid = 38
     RETURNING *
 ;
 
@@ -111,7 +116,10 @@ SELECT p.projectid, p.createdate, p.reportdate, p.projectname, COUNT(d.firstname
                 ON dp.dp_developer_id = d.developerid 
                 GROUP BY p.projectname, p.createdate, p.projectid
                 ;
-INSERT INTO projects (reportDate) VALUES('15-4-1985');
+INSERT INTO projects (reportDate) 
+    VALUES(to_date('15-04-1985', 'DD-M-YYYY'))
+    WHERE (projectid = 1)
+;
 
 UPDATE projects 
     SET reportdate = '1999-07-03'
@@ -148,6 +156,24 @@ SELECT *
 SELECT *
     FROM projects
 ;
+
+DELETE
+    FROM projects
+    WHERE projectid = 51
+;
+
+UPDATE projects SET createdate = to_date('01-01-2001', 'DD-MM-YYYY') WHERE projectid = 1
+UPDATE projects SET createdate = to_date('01-01-2002', 'DD-MM-YYYY') WHERE projectid = 2
+UPDATE projects SET createdate = to_date('01-01-2003', 'DD-MM-YYYY') WHERE projectid = 3
+UPDATE projects SET createdate = to_date('01-01-2004', 'DD-MM-YYYY') WHERE projectid = 4
+UPDATE projects SET createdate = to_date('01-01-2005', 'DD-MM-YYYY') WHERE projectid = 5
+
+UPDATE projects SET reportdate = to_date('01-01-2011', 'DD-MM-YYYY') WHERE projectid = 1
+UPDATE projects SET reportdate = to_date('01-01-2012', 'DD-MM-YYYY') WHERE projectid = 2
+UPDATE projects SET reportdate = to_date('01-01-2013', 'DD-MM-YYYY') WHERE projectid = 3
+UPDATE projects SET reportdate = to_date('01-01-2014', 'DD-MM-YYYY') WHERE projectid = 4
+UPDATE projects SET reportdate = to_date('01-01-2015', 'DD-MM-YYYY') WHERE projectid = 5
+--UPDATE projects SET reportdate = to_date(13-02-2016) WHERE developerid = 1
 
 SELECT *
     FROM skills
