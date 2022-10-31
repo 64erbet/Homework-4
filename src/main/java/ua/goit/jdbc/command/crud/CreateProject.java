@@ -1,6 +1,7 @@
 package ua.goit.jdbc.command.crud;
 
 import ua.goit.jdbc.command.Command;
+import ua.goit.jdbc.model.dao.ProjectDao;
 import ua.goit.jdbc.service.ProjectService;
 import ua.goit.jdbc.view.View;
 
@@ -13,6 +14,7 @@ public class CreateProject implements Command {
     View view;
     Connection connection;
     private static final ProjectService projectService = ProjectService.getInstance();
+    private ProjectDao createdProject;
 
     public CreateProject(View view, Connection connection) {
         this.view = view;
@@ -27,6 +29,15 @@ public class CreateProject implements Command {
 
     @Override
     public void execute() {
-        projectService.create(connection);
+        createdProject = projectService.create(connection);
+        if (createdProject != null) {
+            System.out.println("Успешно создали новый проект!!!");
+        } else {
+            System.out.println("Проблемы при создании проета");
+        }
+    }
+
+    public ProjectDao getCreatedProject() {
+        return createdProject;
     }
 }

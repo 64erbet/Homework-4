@@ -9,16 +9,9 @@ public class ProjectDao {
     private LocalDate createDateDAO;
     private LocalDate reportDateDAO;
 
-    public ProjectDao(){
+        public ProjectDao(){
 
     };
-
-//    public ProjectDao(String projectNameDAO,
-//                      Integer customerIdDAO, LocalDate createDateDAO) {
-//        this.projectNameDAO = projectNameDAO;
-//        this.customerIdDAO = customerIdDAO;
-//        this.createDateDAO = createDateDAO;
-//    }
 
     public ProjectDao(Integer projectId, String projectNameDAO,
                       Integer customerIdDAO, LocalDate createDateDAO,

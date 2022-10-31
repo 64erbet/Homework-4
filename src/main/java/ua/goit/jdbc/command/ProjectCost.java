@@ -3,6 +3,7 @@ package ua.goit.jdbc.command;
 import ua.goit.jdbc.service.ProjectService;
 import ua.goit.jdbc.view.View;
 
+import java.math.BigDecimal;
 import java.sql.*;
 
 public class ProjectCost implements Command {
@@ -13,8 +14,7 @@ public class ProjectCost implements Command {
     private final View view;
 
     private static final ProjectService projectService = ProjectService.getInstance();
-
-//    public ProjectCost(View view, DatabaseManagerConnector connector) {
+    private BigDecimal projectCost;
     public ProjectCost(View view, Connection connection) {
         this.connection = connection;
         this.view = view;
@@ -25,6 +25,9 @@ public class ProjectCost implements Command {
     }
     @Override
     public void execute() {
-        projectService.printProjectCost(connection);
+        projectCost = projectService.getProjectCost(connection);
+    }
+    public BigDecimal getProjectCost() {
+        return projectCost;
     }
 }

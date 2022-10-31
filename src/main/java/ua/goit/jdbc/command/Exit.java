@@ -21,7 +21,7 @@ public class Exit implements Command {
 
     @Override
     public void execute() {
-        view.write(BYE_MESSAGE);
-        throw new ExitException();
+//        view.write(BYE_MESSAGE);
+        throw new ExitException(BYE_MESSAGE);
     }
 }

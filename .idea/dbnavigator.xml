@@ -108,13 +108,19 @@ SELECT *
     FROM projects
 ;
 
-SELECT p.projectid, p.createdate, p.reportdate, p.projectname, COUNT(d.firstname) 
+SELECT p.projectid, p.createdate, p.reportdate, p.projectname, c.customerid, COUNT(d.firstname) 
                 FROM projects p 
                 LEFT JOIN developers_projects dp 
                 ON p.projectid = dp.dp_project_id 
                 LEFT JOIN developers d 
                 ON dp.dp_developer_id = d.developerid 
-                GROUP BY p.projectname, p.createdate, p.projectid
+--                ***********************************************************
+                LEFT JOIN customers_projects cp
+                ON p.projectid = cp.cuspr_customer_id
+                LEFT JOIN customers c
+                ON c.customerid = cp.cuspr_customer_id
+--                ************************************************************
+                GROUP BY p.projectname, p.createdate, p.projectid, c.customerid
                 ;
 INSERT INTO projects (reportDate) 
     VALUES(to_date('15-04-1985', 'DD-M-YYYY'))
@@ -177,7 +183,88 @@ UPDATE projects SET reportdate = to_date('01-01-2015', 'DD-MM-YYYY') WHERE proje
 
 SELECT *
     FROM skills
-;]]></console>
+;
+
+SELECT *
+    FROM customers
+;
+
+SELECT count(customerid)
+    FROM customers
+; 
+
+SELECT *
+    FROM projects
+;
+
+UPDATE projects
+    SET projectname = 'Project_VOVA'
+    WHERE projectid = 62
+    RETURNING *
+;
+
+SELECT *
+    FROM developers
+;
+
+DELETE
+    FROM projects
+    WHERE projectid = 61
+;
+
+SELECT *
+    FROM customers_projects
+;
+
+SELECT d.developerid, d.firstname, 
+        d.gender, d.age, d.companyid, d.salary
+    FROM projects p 
+    LEFT JOIN developers_projects dp 
+    ON p.projectid = dp.dp_project_id 
+    LEFT JOIN developers d 
+    ON dp.dp_developer_id = d.developerid  
+    WHERE p.projectid = 1
+;
+
+--SELECT STRING_AGG(d.firstname, ', ')
+SELECT d.developerid, d.firstname, 
+        d.gender, d.age, d.companyid, d.salary
+    FROM developers d 
+    LEFT JOIN developers_skills ds 
+    ON d.developerid = ds.ds_developer_id 
+    LEFT JOIN skills s 
+    ON s.skillid = ds.ds_skill_id 
+    WHERE s.skillname = 'Java'
+;
+
+--SELECT STRING_AGG(DISTINCT d.firstname, ', ')
+SELECT d.developerid, d.firstname, 
+        d.gender, d.age, d.companyid, d.salary 
+    FROM skills s 
+    LEFT JOIN developers_skills ds 
+    ON s.skillid = ds.ds_skill_id 
+    LEFT JOIN developers d 
+    ON d.developerid = ds.ds_developer_id 
+    WHERE s.skilllavel = 'Middle'
+;
+
+
+SELECT p.projectid, p.createdate, p.reportdate, p.projectname, 
+        COUNT(d.developerid), c.customerid  
+    FROM projects p 
+    LEFT JOIN developers_projects dp 
+    ON p.projectid = dp.dp_project_id 
+    LEFT JOIN developers d 
+    ON dp.dp_developer_id = d.developerid
+    LEFT JOIN customers_projects cp
+    ON p.projectid = cp.cuspr_project_id
+    LEFT JOIN customers c
+    ON cp.cuspr_customer_id = c.customerid
+    GROUP BY p.projectname, p.createdate, p.projectid, c.customerid
+;
+
+SELECT *
+    FROM projects]]></console>
     </connection>
     <connection id="c4a0bacc-5bc9-44c7-a5a4-71ea70781437">
       <console name="Connection 1" type="STANDARD" schema="" session="Main"><![CDATA[INSERT INTO public.projects (projectname, customerid, createdate)

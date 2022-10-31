@@ -1,6 +1,6 @@
 package ua.goit.jdbc.model.dao;
 
-import java.sql.Date;
+import java.math.BigDecimal;
 
 public class DeveloperDao {
     private Integer devId;
@@ -8,10 +8,13 @@ public class DeveloperDao {
     private String devGen;
     private Integer devAge;
     private Integer companyId;
-    private Double salary;
+    private BigDecimal salary;
+
+    public DeveloperDao() {
+    }
 
     public DeveloperDao(Integer devId, String devName, String devGen,
-                        Integer devAge, Integer companyId, Double salary) {
+                        Integer devAge, Integer companyId, BigDecimal salary) {
         this.devId = devId;
         this.devName = devName;
         this.devGen = devGen;
@@ -60,11 +63,11 @@ public class DeveloperDao {
         this.companyId = companyId;
     }
 
-    public Double getSalary() {
+    public BigDecimal getSalary() {
         return salary;
     }
 
-    public void setSalary(Double salary) {
+    public void setSalary(BigDecimal salary) {
         this.salary = salary;
     }
 

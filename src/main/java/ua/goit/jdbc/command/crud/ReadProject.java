@@ -1,6 +1,7 @@
 package ua.goit.jdbc.command.crud;
 
 import ua.goit.jdbc.command.Command;
+import ua.goit.jdbc.model.dao.ProjectDao;
 import ua.goit.jdbc.service.ProjectService;
 import ua.goit.jdbc.view.View;
 
@@ -11,6 +12,8 @@ public class ReadProject implements Command {
     View view;
     Connection connection;
     private static final ProjectService projectService = ProjectService.getInstance();
+
+    private ProjectDao readedProjectDao;
 
     public ReadProject(View view, Connection connection) {
         this.view = view;
@@ -24,6 +27,9 @@ public class ReadProject implements Command {
 
     @Override
     public void execute() {
-        projectService.read(connection);
+        readedProjectDao = projectService.read(connection);
+    }
+    public ProjectDao getReadedProjectDao() {
+        return readedProjectDao;
     }
 }

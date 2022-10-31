@@ -13,6 +13,8 @@ public class DeleteProject implements Command {
     Connection connection;
     public static final ProjectService projectService = ProjectService.getInstance();
 
+    boolean deleteProject;
+
     public DeleteProject(View view, Connection connection) {
         this.view = view;
         this.connection = connection;
@@ -25,6 +27,11 @@ public class DeleteProject implements Command {
 
     @Override
     public void execute() {
-        projectService.delete(connection);
+        boolean deleteProject = projectService.delete(connection);
+        if (deleteProject){
+            System.out.println("Успешно удалили проект!!!");
+        } else {
+            System.out.println("Проблемы при удалении проекта");
+        }
     }
 }
