@@ -1,5 +1,6 @@
 package ua.goit.jdbc.repository;
 
+import ua.goit.jdbc.command.Help;
 import ua.goit.jdbc.exceprtions.ExitException;
 import ua.goit.jdbc.model.dao.DeveloperDao;
 import ua.goit.jdbc.model.dao.ProjectDao;
@@ -18,7 +19,6 @@ public class ProjectRepository {
         String INSERT_PROJECT = "INSERT INTO public.projects (projectname, " +
                 "customerid, createdate, reportdate) " +
                 "VALUES (?, ?, ?, ?) "
-//                + "RETURNING *"
                 ;
 
         try (var statement = connection.prepareStatement(INSERT_PROJECT,
@@ -35,8 +35,8 @@ public class ProjectRepository {
             Integer projectId = resultSet.getObject(1, Integer.class);
             projectDao.setProjectId(projectId);
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ExitException("Exception on project creation");
+            throw new ExitException("Exception on project creation\n" +
+                    "Enter \"Help\" to see all commands");
         }
 
         return (projectDao);
@@ -46,9 +46,9 @@ public class ProjectRepository {
         String READ_PROJECT = "SELECT * " +
                                 "FROM projects " +
                                 "WHERE projectid = ?"
-                ;
+                            ;
 
-        ProjectDao projectDao = new ProjectDao();
+        ProjectDao projectDao = null;
 
         try (var statement = connection.prepareStatement(READ_PROJECT,
                      Statement.RETURN_GENERATED_KEYS)) {
@@ -57,47 +57,40 @@ public class ProjectRepository {
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
 
+            projectDao = new ProjectDao();
             projectDao.setProjectId(resultSet.getObject(1, Integer.class));
             projectDao.setProjectNameDAO(resultSet.getObject(2, String.class));
             projectDao.setCustomerIdDAO(resultSet.getObject(3, Integer.class));
             projectDao.setCreateDateDAO(resultSet.getObject(4, LocalDate.class));
             projectDao.setReportDateDAO(resultSet.getObject(5, LocalDate.class));
 
-            System.out.println("FROM REPOSITORY !!!! \nprojectDao = " + projectDao);
-            return (projectDao);
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ExitException("Exception on reading project");
+            System.out.println("There is NO project with this id\n" +
+                    "Enter \"Help\" to see all commands");
         }
+        return (projectDao);
     }
 
-    public ProjectDao updateById(Integer projectId, String newProjectName, Connection connection) {
+    public Boolean updateById(Integer projectId, String newProjectName, Connection connection) {
         String UPDATE_PROJECT = "UPDATE projects " +
                 "SET projectname = ? " +
-                "WHERE projectid = ? " +
-                "RETURNING * " +
-                "\n;";
+                "WHERE projectid = ? "
+                ;
 
-        ProjectDao projectDao = new ProjectDao();
+        Boolean rez_update_project = false;
         try (var statement = connection.prepareStatement(UPDATE_PROJECT)){
 
             statement.setString(1, newProjectName);
             statement.setInt(2, projectId);
 
-            ResultSet resultSetUpdate = statement.executeQuery();
-
-            resultSetUpdate.next();
-
-            projectDao.setProjectId(resultSetUpdate.getInt(1));
-            projectDao.setProjectNameDAO(resultSetUpdate.getObject(2, String.class));
-            projectDao.setCustomerIdDAO(resultSetUpdate.getObject(3, Integer.class));
-            projectDao.setCreateDateDAO(resultSetUpdate.getObject(4, Date.class).toLocalDate());
-            projectDao.setReportDateDAO(resultSetUpdate.getObject(5, Date.class).toLocalDate());
+            if (statement.executeUpdate() > 0) {
+                rez_update_project = true;
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ExitException("Exception on project updating");
+            System.out.println("Exception on project updating\n" +
+                    "Enter \"Help\" to see all commands");
         }
-        return (projectDao);
+        return (rez_update_project);
     }
 
     public boolean deleteById(Integer projectId, Connection connection) {
@@ -113,20 +106,17 @@ public class ProjectRepository {
 
             kolUpdatedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ExitException("Exception on project deleting");
+            System.out.println("Exception on project deleting\n" +
+                    "Enter \"Help\" to see all commands");
         }
         if (kolUpdatedRows > 0) {
             System.out.println("ВСЕ УСПЕШНО УДАЛЕНО!");
             return (true);
         } else {
-
             return (false);
         }
     }
-
-//**************************************************************************************
-    //**********************************************************************************
+//************************************************************************************
     public BigDecimal getCostOfProjectWithId(Integer id, Connection connection) {
         String Cost_QUERY = "SELECT p.projectid, SUM(d.salary) "
                 + "FROM projects p "
@@ -146,11 +136,11 @@ public class ProjectRepository {
 
             return (resultSet.getObject(2, BigDecimal.class));
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ExitException("Exception when method \"getCostOfProjectWithId()\" executing");
+            System.out.println("Exception when method \"getCostOfProjectWithId()\" executing");
         }
+        return (null);
     }
-    //**********************************************************************************
+
     public ArrayList<DeveloperDao> getProjectWithIdDevs(Integer projectId, Connection connection) {
         String QUERY = "SELECT d.developerid, d.firstname, d.gender, d.age, "
                 + "d.companyid, d.salary "
@@ -179,14 +169,11 @@ public class ProjectRepository {
 
                 devDaoList.add(developerDao);
             }
-
-            return (devDaoList);
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ExitException("Exception when method \"getProjectWithIdDevs()\" executing");
+            System.out.println("Exception when method \"getProjectWithIdDevs()\" executing");
         }
+        return (devDaoList);
     }
-    //**********************************************************************************
     public ArrayList<DeveloperDao> getAllJavaDevs(Connection connection) {
         String JAVA_DEVS_QUERY = "SELECT d.developerid, d.firstname, "
                     + "d.gender, d.age, d.companyid, d.salary "
@@ -215,14 +202,11 @@ public class ProjectRepository {
 
                 javaDevDaoList.add(javaDeveloperDao);
             }
-
-            return (javaDevDaoList);
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ExitException("Exception when method \"getAllJavaDevs()\" executing");
+            System.out.println("Exception when method \"getAllJavaDevs()\" executing");
         }
+        return (javaDevDaoList);
     }
-    //**********************************************************************************
     public ArrayList<DeveloperDao> getMiddleDevelopersList(Connection connection) {
         String MIDDLE_DEVS_QUERY = "SELECT d.developerid, d.firstname, "
                     + "d.gender, d.age, d.companyid, d.salary "
@@ -250,16 +234,11 @@ public class ProjectRepository {
 
                 middleDevDaoList.add(middleDeveloperDao);
             }
-
-            return (middleDevDaoList);
-
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ExitException("Exception when method \"getMiddleDevelopersList()\" executing");
+            System.out.println("Exception when method \"getMiddleDevelopersList()\" executing");
         }
-//        return (null);
+        return (middleDevDaoList);
     }
-    //**********************************************************************************
     public String getFormattedProjectList(Connection connection) {
         String rezultat = "";
         String MIDDLE_DEVS_QUERY = "SELECT p.projectid, p.createdate, p.reportdate, "
@@ -291,22 +270,19 @@ public class ProjectRepository {
 
                 arrayListProjectDao.add(projectDao);
 
-//                Integer projectId = resultSet.getInt(1);
+                Integer projectId = resultSet.getInt(1);
                 Date createDate = resultSet.getObject(2, Date.class);
-//                Date reportDate = resultSet.getObject(3, Date.class);
                 String projectName = resultSet.getObject(4, String.class);
                 Integer devsCount = resultSet.getInt(5);
-//                Integer customerId = resultSet.getInt(6);
 
                 rezultat +=
 //                        "\t".repeat(2)
-//                        + projectId
+                        + projectId
 //                        + "\t".repeat(3)
+                        +"\t" +
                         " "
                         + createDate.toString()
                         + "\t".repeat(4)
-//                        + reportDate.toString()
-//                        + " \t".repeat(2)
                         + projectName
                         + " ".repeat(38 - projectName.length())
                         + devsCount
@@ -315,10 +291,8 @@ public class ProjectRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ExitException("Exception when method \"getFormattedProjectList()\" executing");
+            System.out.println("Exception when method \"getFormattedProjectList()\" executing");
         }
-//        return (arrayListProjectDao);
         return (rezultat);
     }
 
@@ -335,15 +309,11 @@ public class ProjectRepository {
             resultSet.next();
             rezult = resultSet.getInt(1);
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ExitException("Exception when method \"getCustomersCount()\" executing");
+            System.out.println("Exception when method \"getCustomersCount()\" executing");
         }
         return (rezult);
     }
-
-//    public String getProjectsIds(Connection connection) {
     public ArrayList<Integer> getProjectsIds(Connection connection) {
-//        String rezult = "";
         ArrayList<Integer> pIdsList = new ArrayList<>();
         String projectIdsQuery = "SELECT p.projectid " +
                 "FROM projects p " +
@@ -353,14 +323,12 @@ public class ProjectRepository {
             ResultSet resultSet = statement.executeQuery(projectIdsQuery);
 
             while (resultSet.next()) {
-//                rezult += resultSet.getInt(1) + ", ";
                 pIdsList.add(resultSet.getInt(1));
             }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ExitException("Exception when method \"getProjectsIds()\" executing");
         }
-//        return (rezult.substring(0, rezult.length()-2));
         return (pIdsList);
     }
 }

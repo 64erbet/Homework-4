@@ -8,10 +8,14 @@ import static ua.goit.jdbc.command.ProjectDevelopersList.PROJECT_DEVS_LIST;
 import static ua.goit.jdbc.command.JavaDevelopersList.JAVA_DEVS_LIST;
 import static ua.goit.jdbc.command.MiddleDevelopersList.MIDDLE_DEVS_LIST;
 import static ua.goit.jdbc.command.FormattedProjectsList.FORMATTED_PROJECTS_LIST;
-import static ua.goit.jdbc.command.crud.CreateProject.CREATE_PROJECT;
-import static ua.goit.jdbc.command.crud.DeleteProject.DELETE_PROJECT;
-import static ua.goit.jdbc.command.crud.ReadProject.READ_PROJECT;
-import static ua.goit.jdbc.command.crud.UpdateProject.UPDATE_PROJECT;
+import static ua.goit.jdbc.command.crud.create.CreateCompany.CREATE_COMPANY;
+import static ua.goit.jdbc.command.crud.create.CreateProject.CREATE_PROJECT;
+import static ua.goit.jdbc.command.crud.delete.DeleteCompany.DELETE_COMPANY;
+import static ua.goit.jdbc.command.crud.delete.DeleteProject.DELETE_PROJECT;
+import static ua.goit.jdbc.command.crud.read.ReadCompany.READ_COMPANY;
+import static ua.goit.jdbc.command.crud.read.ReadProject.READ_PROJECT;
+import static ua.goit.jdbc.command.crud.update.UpdateCompany.UPDATE_COMPANY;
+import static ua.goit.jdbc.command.crud.update.UpdateProject.UPDATE_PROJECT;
 
 //import static ua.goit.jdbc.command.ProjectDevelopersList.FORMATTED_PROJECTS_LIST;
 
@@ -39,8 +43,15 @@ public class Help implements Command{
         view.write(String.format("Enter \"%s\" command to get FORMATTED projects list", FORMATTED_PROJECTS_LIST));
 
         view.write(String.format("Enter \"%s\" command to CREATE project", CREATE_PROJECT));
+        view.write(String.format("Enter \"%s\" command to CREATE project", CREATE_COMPANY));
+
         view.write(String.format("Enter \"%s\" command to READ project", READ_PROJECT));
+        view.write(String.format("Enter \"%s\" command to READ project", READ_COMPANY));
+
         view.write(String.format("Enter \"%s\" command to UPDATE project", UPDATE_PROJECT));
+        view.write(String.format("Enter \"%s\" command to UPDATE project", UPDATE_COMPANY));
+
         view.write(String.format("Enter \"%s\" command to DELETE project", DELETE_PROJECT));
+        view.write(String.format("Enter \"%s\" command to DELETE project", DELETE_COMPANY));
     }
 }

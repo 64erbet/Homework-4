@@ -22,65 +22,64 @@ public class ProjectService {
     ProjectRepository projectRepository = new ProjectRepository();
 
     private ProjectService() {
-
     }
 
     public static ProjectService getInstance() {
         return PROJECT_SERVICE;
     }
 
-
 //***************** CRUD *****************************************************************
 
     public ProjectDao create(Connection connection) {
         int customersCount = projectRepository.getCustomersCount(connection);
 
-        view.write("Введите название проекта");
-        var pName = view.read();
-        view.write("Введите ПОРЯДКОВЫЙ НОМЕР заказчика проекта (от 1 до " + customersCount + ")");
-        var pCustId = view.read();
-        view.write("Введите дату создания проекта в формате \"d-MM-yyyy\"");
-        LocalDate pCreateDate = LocalDate.parse(view.read(), formatter);
-        view.write("Введите дату сдачи проекта в формате \"d-MM-yyyy\"");
-        LocalDate pReportDate = LocalDate.parse(view.read(), formatter);
-        while (pReportDate.isBefore(pCreateDate) ||
-                pReportDate.equals(pCreateDate)) {
-            view.write("Вы ввели некорректную дату сдачи проекта! Она должна быть " +
-                    "ПОСЛЕ даты его создания" +
-                    "\nПопробуйте еще раз! Ввести ДАТУ СДАЧИ ПРОЕКТА");
+        String pName = null;
+        String pCustId = null;
+        LocalDate pCreateDate = null;
+        LocalDate pReportDate = null;
+        try {
+            view.write("Введите название проекта");
+            pName = view.read();
+            view.write("Введите ПОРЯДКОВЫЙ НОМЕР заказчика проекта (от 1 до " + customersCount + ")");
+            pCustId = view.read();
+            view.write("Введите дату создания проекта в формате \"d-MM-yyyy\"");
+            pCreateDate = LocalDate.parse(view.read(), formatter);
+            view.write("Введите дату сдачи проекта в формате \"d-MM-yyyy\"");
             pReportDate = LocalDate.parse(view.read(), formatter);
+            while (pReportDate.isBefore(pCreateDate) ||
+                    pReportDate.equals(pCreateDate)) {
+                view.write("Вы ввели некорректную дату сдачи проекта! Она должна быть " +
+                        "ПОСЛЕ даты его создания" +
+                        "\nПопробуйте еще раз! Ввести ДАТУ СДАЧИ ПРОЕКТА");
+                pReportDate = LocalDate.parse(view.read(), formatter);
+            }
+        } catch (Exception e) {
+            System.out.println("Введены некорректные данные для создания проекта!!!!");
         }
-
-//        if(pReportDate.isBefore(pCreateDate))
 
         ProjectDao projectDao = new ProjectDao(null, pName, Integer.parseInt(pCustId),
                 pCreateDate, pReportDate);
-        //*******************************************************************************
 
-        //*******************************************************************************
         ProjectDao projectDaoWithId = projectRepository.create(projectDao, connection);
 
-        System.out.println("!!! СОЗДАЛИ УСПЕШНО. \n" + projectDaoWithId.toString());
+        System.out.println("!!! СОЗДАЛИ ПРОЕКТ УСПЕШНО. \n" + projectDaoWithId.toString());
         return (projectDaoWithId);
     }
 
     public ProjectDao read(Connection connection) {
         view.write("Введите пожалуйста id проэкта, который Вы хотите прочитать?");
         String readingProjectId = view.read();
-
+//        System.out.println("projectRepository.readById(Integer.parseInt(readingProjectId), connection) = " + projectRepository.readById(Integer.parseInt(readingProjectId), connection));
         return (projectRepository.readById(Integer.parseInt(readingProjectId), connection));
     }
 
-
-    public ProjectDao update(Connection connection) {
+    public Boolean update(Connection connection) {
         view.write("Введите пожалуйста id проэкта, который Вы хотите проапдейтить?");
         Integer projectToUpdateId = Integer.parseInt(view.read());
         view.write("Введите пожалуйста НОВОЕ ИМЯ проэкта, который Вы хотите проапдейтить?");
         String newProjectName = view.read();
 
-        ProjectDao NEW_projectDao = projectRepository.updateById(projectToUpdateId, newProjectName, connection);
-        System.out.println("NEW_projectDao = " + NEW_projectDao);
-        return NEW_projectDao;
+        return (projectRepository.updateById(projectToUpdateId, newProjectName, connection));
     }
 
     public boolean delete(Connection connection) {
@@ -99,7 +98,7 @@ public class ProjectService {
         Integer projectToDeleteId;
         boolean idInList = false;
         do {
-            view.write("Введите пожалуйста id проэкта, который Вы хотите безжалостно убить?");
+            view.write("Введите пожалуйста id проэкта (список ВСЕХ проектов - выше), который Вы хотите безжалостно убить?");
 
             projectToDeleteId = Integer.parseInt(view.read());
 

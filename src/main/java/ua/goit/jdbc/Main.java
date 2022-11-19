@@ -1,12 +1,15 @@
 package ua.goit.jdbc;
 
 import ua.goit.jdbc.command.*;
-import ua.goit.jdbc.command.crud.CreateProject;
-import ua.goit.jdbc.command.crud.DeleteProject;
-import ua.goit.jdbc.command.crud.ReadProject;
-import ua.goit.jdbc.command.crud.UpdateProject;
+import ua.goit.jdbc.command.crud.create.CreateCompany;
+import ua.goit.jdbc.command.crud.create.CreateProject;
+import ua.goit.jdbc.command.crud.delete.DeleteCompany;
+import ua.goit.jdbc.command.crud.delete.DeleteProject;
+import ua.goit.jdbc.command.crud.read.ReadCompany;
+import ua.goit.jdbc.command.crud.read.ReadProject;
+import ua.goit.jdbc.command.crud.update.UpdateCompany;
+import ua.goit.jdbc.command.crud.update.UpdateProject;
 import ua.goit.jdbc.config.DatabaseManagerConnector;
-import ua.goit.jdbc.config.PropertiesConfig;
 import ua.goit.jdbc.controller.Controller;
 import ua.goit.jdbc.view.Console;
 import ua.goit.jdbc.view.View;
@@ -15,7 +18,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.Scanner;
 
 public class Main {
@@ -47,6 +49,11 @@ public class Main {
         commands.add(new ReadProject(view, connection));
         commands.add(new UpdateProject(view, connection));
         commands.add(new DeleteProject(view, connection));
+
+        commands.add(new CreateCompany(view, connection));
+        commands.add(new ReadCompany(view, connection));
+        commands.add(new UpdateCompany(view, connection));
+        commands.add(new DeleteCompany(view, connection));
 
         Controller controller = new Controller(view, commands);
         controller.run();

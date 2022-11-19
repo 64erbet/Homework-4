@@ -42,7 +42,6 @@ public class Controller {
             for(Command command : commandList) {
                 if (command.canExecute(input)) {
                     try {
-//                        System.out.println("You entered " + input);
                         command.execute();
                     } catch (NumberFormatException e) {
                         view.write("******** Wrong input ******** ");

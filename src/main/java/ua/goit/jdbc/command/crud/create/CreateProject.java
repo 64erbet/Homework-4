@@ -1,4 +1,4 @@
-package ua.goit.jdbc.command.crud;
+package ua.goit.jdbc.command.crud.create;
 
 import ua.goit.jdbc.command.Command;
 import ua.goit.jdbc.model.dao.ProjectDao;
@@ -35,6 +35,7 @@ public class CreateProject implements Command {
         } else {
             System.out.println("Проблемы при создании проета");
         }
+        System.out.println("createdProject (from CreateProject) = " + createdProject);
     }
 
     public ProjectDao getCreatedProject() {

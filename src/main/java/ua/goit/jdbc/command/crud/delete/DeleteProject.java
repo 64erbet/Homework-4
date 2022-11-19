@@ -1,4 +1,4 @@
-package ua.goit.jdbc.command.crud;
+package ua.goit.jdbc.command.crud.delete;
 
 import ua.goit.jdbc.command.Command;
 import ua.goit.jdbc.service.ProjectService;

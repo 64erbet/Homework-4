@@ -199,7 +199,7 @@ SELECT *
 
 UPDATE projects
     SET projectname = 'Project_VOVA'
-    WHERE projectid = 62
+    WHERE projectid = 65
     RETURNING *
 ;
 
@@ -264,7 +264,43 @@ SELECT p.projectid, p.createdate, p.reportdate, p.projectname,
 ;
 
 SELECT *
-    FROM projects]]></console>
+    FROM projects
+;
+
+SELECT *
+    FROM companies
+--    WHERE companyid = 5
+;
+
+SELECT * 
+    FROM companies 
+    WHERE companyid = 5
+;
+                            ;
+
+SELECT c.companyid
+    FROM companies c
+    ;
+    
+SELECT *
+    FROM companies
+;
+
+INSERT INTO public.companies (companyname, companylocation) 
+    VALUES ('oriflame1', 'Ukraine, Kyiv')
+;
+
+UPDATE companies 
+    SET companyname = 'Fuck' 
+    WHERE companyid = ? 
+    RETURNING * 
+;
+
+UPDATE projects
+    SET projectName = 'Vaflya'
+    WHERE projectId = 65
+    RETURNING *
+;]]></console>
     </connection>
     <connection id="c4a0bacc-5bc9-44c7-a5a4-71ea70781437">
       <console name="Connection 1" type="STANDARD" schema="" session="Main"><![CDATA[INSERT INTO public.projects (projectname, customerid, createdate)

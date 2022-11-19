@@ -1,4 +1,4 @@
-package ua.goit.jdbc.command.crud;
+package ua.goit.jdbc.command.crud.update;
 
 import ua.goit.jdbc.command.Command;
 import ua.goit.jdbc.model.dao.ProjectDao;
@@ -7,29 +7,28 @@ import ua.goit.jdbc.view.View;
 
 import java.sql.Connection;
 
-public class ReadProject implements Command {
-    public static final String READ_PROJECT = "r_p";
+public class UpdateProject implements Command {
+    public static final String UPDATE_PROJECT = "u_p";
     View view;
     Connection connection;
     private static final ProjectService projectService = ProjectService.getInstance();
 
-    private ProjectDao readedProjectDao;
+//    private ProjectDao updatedProjectDao;
+    Boolean rezUpdateProject = false;
 
-    public ReadProject(View view, Connection connection) {
+    public UpdateProject(View view, Connection connection) {
         this.view = view;
         this.connection = connection;
     }
 
     @Override
     public boolean canExecute(String input) {
-        return (input.equalsIgnoreCase(READ_PROJECT));
+        return (input.equalsIgnoreCase(UPDATE_PROJECT));
     }
 
     @Override
     public void execute() {
-        readedProjectDao = projectService.read(connection);
-    }
-    public ProjectDao getReadedProjectDao() {
-        return readedProjectDao;
+        rezUpdateProject = projectService.update(connection);
+        System.out.println("rezUpdateProject (from UpdateProject) = " + rezUpdateProject);
     }
 }

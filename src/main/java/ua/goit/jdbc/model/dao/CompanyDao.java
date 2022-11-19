@@ -5,6 +5,10 @@ public class CompanyDao {
     private String compName;
     private String compLocation;
 
+    public CompanyDao() {
+
+    }
+
     public CompanyDao(Integer compId, String compName, String compLocation) {
         this.compId = compId;
         this.compName = compName;
@@ -37,10 +41,10 @@ public class CompanyDao {
 
     @Override
     public String toString() {
-        return "CompanyDao{" +
-                "compId=" + compId +
-                ", compName='" + compName + '\'' +
-                ", compLocation='" + compLocation + '\'' +
-                '}';
+        return "CompanyDao {" +
+                "\n   compId = " + compId +
+                ",\n   compName = '" + compName + '\'' +
+                ",\n   compLocation = '" + compLocation + '\'' +
+                "\n}";
     }
 }
